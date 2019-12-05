@@ -2,13 +2,16 @@ import random
 import csv
 from random import randint
 
+SORT_CRITERIA = "Grade"
+SIZE_CAP = 0
+
 class student:
   d = dict()
   assigned = 1
   sessions = []
   choice_names = []
-  def __init__(self, dict):
-    self.d = dict
+  def __init__(self, dictionary):
+    self.d = dictionary
     self.sessions = [-1,-1,-1]
     self.assigned = 1
     self.choice_names = ["Preferences [First Choice]","Preferences [Second Choice]","Preferences [Third Choice]","Preferences [Fourth Choice]"]
@@ -21,20 +24,20 @@ class student:
 
 #our class or session. limited to 1 person for testing purposes
 class session:
-  SIZE_CAP = 0
+  size_cap = 0
   size = 0
   block = 0
   class_id = 0
   def __init__(self,block,class_id):
-    self.SIZE_CAP = 7
+    self.size_cap = SIZE_CAP
     self.block = block
     self.class_id = class_id
     if class_id == 1:
       self.size = self.SIZE_CAP
   def increment(self):
-    self.size = self.size + 1
+    self.size += 1
   def has_room_check(self):
-    return self.size < self.SIZE_CAP
+    return self.size < self.size_cap
   def has_room(self):
     if self.has_room_check():
       self.increment()
@@ -74,7 +77,6 @@ def loadCSV(path):
 # Sorts array with mergesort greatest to least using a value in dictionary
 # Precondition: SORT_CRTIERIA is a valid key in all student dictionaries
 def sort_students(array):
-  SORT_CRITERIA = "Grade"
   if len(array) > 1:
     midpoint = len(array)//2
     left = array[:midpoint]
