@@ -1,4 +1,5 @@
 import random
+import csv
 from random import randint
 
 class student:
@@ -16,7 +17,7 @@ class student:
     self.sessions[abs(self.d["Grade"]-11)] = 1 #set vaping class
   def update_choice_names(self):
     for i in self.choice_names:
-      self.d[i] = self.d[i].split(" ")[0][1:] 
+      self.d[i] = self.d[i].split(" ")[0][1:].replace(":","")
 
 #our class or session. limited to 1 person for testing purposes
 class session:
@@ -32,8 +33,10 @@ class session:
       self.size = self.SIZE_CAP
   def increment(self):
     self.size = self.size + 1
+  def has_room_check(self):
+    return self.size < self.SIZE_CAP
   def has_room(self):
-    if self.size < self.SIZE_CAP:
+    if self.has_room_check():
       self.increment()
       return True
     else:
@@ -53,10 +56,10 @@ class schedule:
 def loadCSV(path):
   students = []
   z = open(path)
-  keys = z.readline().rstrip().replace("A 2,190 Mile Mindset","A 2190 Mile Mindset").split(',')
+  keys = z.readline().rstrip().split(',')
   line = z.readline()
   while line:
-    data = line.rstrip().replace("A 2,190 Mile Mindset","A 2190 Mile Mindset").split(',')
+    data = line.rstrip().split(',')
     d = dict()
     for i in range(0,len(data)):
       if keys[i] == "Grade":
@@ -128,10 +131,35 @@ def make_schedule(students, schedule):
               got_assigned = True
               break
 
+def fill_unassigned(students, schedule):
+  for student in students:
+    for i in range(len(student.sessions)):
+      if student.sessions[i] == -1:
+        pot = []
+        for session in schedule.matrix[i]:
+          if session.has_room_check():
+            pot.append(session)
+        new_assignment = random.choice(pot)
+        pot.has_room()
+        student.sessions[i] = new_assignment.class_id
+
+literal_names = ["#1 Vaping: What We Know Right Now","#2 A 'Shot' of Information", "#3 Latest Trends in Sexually Transmitted Infections","#4: Plugging In: Power and Connection","#5 Anxiety and Depression in Teens,#10 Exercise and Medicine","#6 Understanding Eating Disorders","#7 Yoga","#8 Mindfulness","#9 A 2190 Mile Mindset","#10 Exercise and Medicine","#11 How to Fuel Your Body for Optimal Performance & The Effects of Stress on the Body","#12 Poisoning Prevention: Not Just for *Little* Kids"]
+
 schedule = schedule()
 students = loadCSV("results.csv")
 sort_students(students)
 make_schedule(students, schedule)
+fill_unassigned(students,schedule)
 print("Schedules:")
-for x in students:
-  print(x.sessions)
+
+
+with open('output.csv', mode='w') as output_file:
+  output_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+  output_writer.writerow(['Email Address','Block 1', 'Block 2', 'Block 3'])
+  for x in students:
+    row = []
+    row.append(x.d["Email Address"])
+    for z in range(len(x.sessions)):
+      row.append(literal_names[x.sessions[z]-1])
+    output_writer.writerow(row)
+  

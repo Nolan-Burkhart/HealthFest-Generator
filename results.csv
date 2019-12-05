@@ -1,2 +1,1 @@
-Timestamp,Email Address,Last Name,First Name,Advisor,Grade,Preferences [First Choice],Preferences [Second Choice],Preferences [Third Choice],Preferences [Fourth Choice]
-12/4/2019 10:42:09,example@test.org,Test,Object,Minster,9,#2 A 'Shot' of Information,#9 A 2,190 Mile Mindset,#4 Plugging In: Power and Connection,#11 How to Fuel Your Body for Optimal Performance & The Effects of Stress on the Body
+Timestamp,Email Address,Preferences [First Choice],Preferences [Second Choice],Preferences [Third Choice],Preferences [Fourth Choice],Grade
