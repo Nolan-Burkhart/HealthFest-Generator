@@ -1,3 +1,4 @@
 # HealthFest-Generator
 
-Creates HealthFest schedules for students.
+A program created to generate schedules for HealthFest.
+

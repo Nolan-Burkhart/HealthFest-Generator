@@ -1,0 +1,6 @@
+ -+Sample Config
+Session Size Cap = 1 as Int -+Specifies Class Size
+Sort Delimeter = Grade -+Specifies Field to Sort With from CSV
+Choice Field = [First Choice, Second Choice, Third Choice, Fourth Choice] as Array -+Specifies Choices
+Sessions = [Vaping, Yoga, Mindfulness, Medicine, Zen Meditation] as Array
+Periods = 2 as Int
